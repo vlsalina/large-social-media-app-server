@@ -79,6 +79,7 @@ Conventional requirements:
 (2) Nodejs
 
 ****** Problems ******
+(1) Must remember NOT to "close" connection to MongoDB when running app.
 
 
 ****** Resources ******
