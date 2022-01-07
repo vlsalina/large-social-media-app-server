@@ -1,12 +1,12 @@
 var express = require("express");
 var usersRouter = express.Router();
-const { dataset } = require("../dataset");
+const { usersDataset } = require("../usersDataset");
 const { getRandomName } = require("../utils");
 const User = require("../models/userModel");
 
 /* POST /insertMany. */
 usersRouter.post("/insertMany", function (req, res, next) {
-  User.insertMany(dataset, function (error, result) {
+  User.insertMany(usersDataset, function (error, result) {
     if (error) {
       res.status(500).send({ error: error });
     } else {

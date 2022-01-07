@@ -65,6 +65,7 @@ Conventional requirements:
   (2.1.6) content
   (2.1.7) likes
   (2.1.8) replies
+  (2.1.9) snippet
 
 (3.1) Replies:
   (3.1.0) id
