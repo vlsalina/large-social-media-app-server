@@ -25,7 +25,16 @@ const userSchema = new mongoose.Schema(
     picture: {
       type: String,
       required: false,
+      default: "",
     },
+    following: [
+      {
+        _id: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     favorites: [
       {
         id: {

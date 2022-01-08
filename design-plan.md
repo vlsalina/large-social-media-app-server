@@ -74,7 +74,7 @@ Conventional requirements:
   (3.1.3) content
   (3.1.4) likes
 
-****** routes  ******
+****** routes ******
 (1.2) Users:
   (1.2.0) get a single user's data
   (1.2.1) get all users data
@@ -82,6 +82,9 @@ Conventional requirements:
   (1.2.3) edit a user's data
   (1.2.4) delete a user
   (1.2.5) follow another user
+  (1.2.6) add an article to user's favorites
+  (1.2.7) unfollow another user
+  (1.2.8) remove an article from user's favorites
 
 (2.2) Articles:
   (2.2.0) get a single article
@@ -107,3 +110,6 @@ Conventional requirements:
 
 
 ****** Resources ******
+
+****** Learned ******
+(1) use "req.query" to get values stored in url for backend
