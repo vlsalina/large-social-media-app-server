@@ -1,5 +1,6 @@
 const { getRandomName } = require("./utils");
 const { v4: uuidv4 } = require("uuid");
+const { hashSync } = require("./utils");
 
 let usersDataset = [];
 for (let i = 0; i < 10; i++) {
@@ -10,7 +11,7 @@ for (let i = 0; i < 10; i++) {
     firstname: fname,
     lastname: lname,
     email: fname + "." + lname + "@example.com",
-    password: "12345",
+    password: hashSync("12345"),
     picture: "",
     favorites: [],
   });

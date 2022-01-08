@@ -73,7 +73,30 @@ Conventional requirements:
   (3.1.2) author avatar
   (3.1.3) content
   (3.1.4) likes
-  
+
+****** routes  ******
+(1.2) Users:
+  (1.2.0) get a single user's data
+  (1.2.1) get all users data
+  (1.2.2) add a new user
+  (1.2.3) edit a user's data
+  (1.2.4) delete a user
+  (1.2.5) follow another user
+
+(2.2) Articles:
+  (2.2.0) get a single article
+  (2.2.1) get all articles
+  (2.2.2) add an article
+  (2.2.3) get articles by category
+  (2.2.4) add reply to an article
+
+(3.2) Replies:
+  (3.2.0) get all replies
+  (3.2.1) add a reply
+  (3.2.2) like a reply
+
+(4.2) Auth:
+  (4.2.0) login
 
 ****** technologies ******
 (1) Reactjs

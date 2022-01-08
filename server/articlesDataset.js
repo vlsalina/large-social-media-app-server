@@ -1,6 +1,7 @@
 const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 const { v4: uuidv4 } = require("uuid");
 const User = require("./models/userModel");
+const { getRandomCategory } = require("./utils");
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -29,6 +30,7 @@ User.find({}, function (error, result) {
 
     articlesDataset.push({
       _id: uuidv4(),
+      category: getRandomCategory(),
       title: lorem.generateWords(8),
       author: `${randomAuthor.firstname} ${randomAuthor.lastname}`,
       authorId: randomAuthor._id,
