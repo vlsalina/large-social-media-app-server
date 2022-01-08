@@ -1,7 +1,8 @@
 const categories = require("./categories/categories");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-// name generator
+// random name generator
 const { uniqueNamesGenerator, names } = require("unique-names-generator");
 
 function getRandomName() {
@@ -23,4 +24,34 @@ function hashSync(plaintext) {
   return hash;
 }
 
-module.exports = { getRandomName, getRandomCategory, hashSync };
+// generate jwt
+function getToken(user) {
+  const accessToken = jwt.sign(
+    user,
+    process.env.ACCESS_TOKEN_SECRET || "access-token-secret"
+  );
+  return accessToken;
+}
+
+// authenticate token
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  jwt.verify(token, "access-token-secret", function (err, result) {
+    if (err) return res.sendStatus(403);
+    req.user = result;
+    next();
+  });
+}
+
+module.exports = {
+  getRandomName,
+  getRandomCategory,
+  hashSync,
+  getToken,
+  authenticateToken,
+};

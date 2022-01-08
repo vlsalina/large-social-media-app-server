@@ -1,8 +1,13 @@
 var express = require("express");
 var usersRouter = express.Router();
 const { usersDataset } = require("../usersDataset");
-const { getRandomName } = require("../utils");
+const { getRandomName, authenticateToken } = require("../utils");
 const User = require("../models/userModel");
+
+/* test */
+usersRouter.post("/test", authenticateToken, function (req, res) {
+  res.status(200).json(req.user);
+});
 
 /* POST /insertMany. */
 usersRouter.post("/insertMany", function (req, res, next) {
