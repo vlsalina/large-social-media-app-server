@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
     },
     following: [
       {
-        _id: {
+        userId: {
           type: String,
           required: true,
         },
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
     ],
     favorites: [
       {
-        id: {
+        articleId: {
           type: String,
           required: true,
         },

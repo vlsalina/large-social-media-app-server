@@ -5,6 +5,7 @@ const { usersDataset } = require("../usersDataset");
 const { getRandomName, authenticateToken, hashSync } = require("../utils");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
+const rules = require("nodemon/lib/rules");
 
 /* PATCH Need to add 'following' property for each user */
 usersRouter.patch("/addFollowingProp", function (req, res) {
@@ -144,16 +145,79 @@ usersRouter.delete("/delete", authenticateToken, function (req, res) {
 
 /* PATCH follow another user */
 usersRouter.patch("/follow", authenticateToken, function (req, res) {
-  User.findById(req.query.id, function (error, result) {
+  User.findById(req.user._id, function (error, result) {
     if (error) {
       res.status(404).send({ error: "404 error. User not found." });
     }
 
-    result.following.push({ _id: req.body._id });
+    // if user is already following, return already is following message
+    result.following.forEach(function (x) {
+      if (x.userId === req.body.userId) {
+        res.status(200).send({ message: "Already following author." });
+      }
+    });
+
+    // add author to user's following list
+    result.following.push({ userId: req.body.userId });
     let update = result;
     result.save();
 
     res.status(200).send(update);
+  });
+});
+
+/* PATCH add article to user's favorites */
+usersRouter.patch("/favorite", authenticateToken, function (req, res) {
+  User.findById(req.user._id, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: "404 error. User not found." });
+    }
+
+    result.favorites.forEach(function (x) {
+      if (x.articleId === req.body.articleId) {
+        res
+          .status(200)
+          .send({ message: "Article already added to favorites." });
+      }
+    });
+
+    result.favorites.push({ articleId: req.body.articleId });
+    let update = result;
+    result.save();
+
+    res.status(200).send(update);
+  });
+});
+
+/* PATCH unfollow another user */
+usersRouter.patch("/unfollow", authenticateToken, function (req, res) {
+  User.findById(req.user._id, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: "404 error. User not found" });
+    }
+
+    result.following = result.following.filter(function (x) {
+      return x.userId !== req.body.userId;
+    });
+
+    result.save();
+    res.status(200).send(result);
+  });
+});
+
+/* PATCH unfavorite an article */
+usersRouter.patch("/unfavorite", authenticateToken, function (req, res) {
+  User.findById(req.user._id, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: "404 error. User not found" });
+    }
+
+    result.favorites = result.favorites.filter(function (x) {
+      return x.articleId !== req.body.articleId;
+    });
+
+    result.save();
+    res.status(200).send(result);
   });
 });
 
