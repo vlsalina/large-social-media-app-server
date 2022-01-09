@@ -147,6 +147,7 @@ usersRouter.delete("/delete", authenticateToken, function (req, res) {
 
 /* PATCH follow another user */
 usersRouter.patch("/follow", authenticateToken, function (req, res) {
+  let sofar = false;
   User.findById(req.user._id, function (error, result) {
     if (error) {
       res.status(404).send({ error: "404 error. User not found." });
@@ -155,21 +156,26 @@ usersRouter.patch("/follow", authenticateToken, function (req, res) {
     // if user is already following, return already is following message
     result.following.forEach(function (x) {
       if (x.userId === req.body.userId) {
-        res.status(200).send({ message: "Already following author." });
+        sofar = true;
       }
     });
 
-    // add author to user's following list
-    result.following.push({ userId: req.body.userId });
-    let update = result;
-    result.save();
+    if (sofar) {
+      res.status(200).send({ message: "Already following author." });
+    } else {
+      // add author to user's following list
+      result.following.push({ userId: req.body.userId });
+      let update = result;
+      result.save();
 
-    res.status(200).send(update);
+      res.status(200).send(update);
+    }
   });
 });
 
 /* PATCH add article to user's favorites */
 usersRouter.patch("/favorite", authenticateToken, function (req, res) {
+  let sofar = false;
   User.findById(req.user._id, function (error, result) {
     if (error) {
       res.status(404).send({ error: "404 error. User not found." });
@@ -177,17 +183,19 @@ usersRouter.patch("/favorite", authenticateToken, function (req, res) {
 
     result.favorites.forEach(function (x) {
       if (x.articleId === req.body.articleId) {
-        res
-          .status(200)
-          .send({ message: "Article already added to favorites." });
+        sofar = true;
       }
     });
 
-    result.favorites.push({ articleId: req.body.articleId });
-    let update = result;
-    result.save();
+    if (sofar) {
+      res.status(200).send({ message: "Article already added to favorites." });
+    } else {
+      result.favorites.push({ articleId: req.body.articleId });
+      let update = result;
+      result.save();
 
-    res.status(200).send(update);
+      res.status(200).send(update);
+    }
   });
 });
 
