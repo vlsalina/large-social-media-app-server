@@ -6,22 +6,24 @@ const { getRandomName, authenticateToken, hashSync } = require("../utils");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
 const rules = require("nodemon/lib/rules");
+const Article = require("../models/articleModel");
 
+/********** DEPRECATED *************/
 /* PATCH Need to add 'following' property for each user */
-usersRouter.patch("/addFollowingProp", function (req, res) {
-  User.find({}, function (error, result) {
-    if (error) {
-      res.status(404).send({ error: "404 error. No users found in database." });
-    }
-
-    result.forEach(function (user) {
-      user["following"] = [];
-      user.save();
-    });
-
-    res.sendStatus(200);
-  });
-});
+//usersRouter.patch("/addFollowingProp", function (req, res) {
+//  User.find({}, function (error, result) {
+//    if (error) {
+//      res.status(404).send({ error: "404 error. No users found in database." });
+//    }
+//
+//    result.forEach(function (user) {
+//      user["following"] = [];
+//      user.save();
+//    });
+//
+//    res.sendStatus(200);
+//  });
+//});
 
 /* POST /insertMany. */
 usersRouter.post("/insertMany", function (req, res, next) {
