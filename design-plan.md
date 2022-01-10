@@ -91,6 +91,8 @@ x (1.2.8) remove an article from user's favorites
 (2.2.2) add an article
 (2.2.3) get articles by category
 (2.2.4) add reply to an article
+(2.2.5) like an article
+(2.2.6) unlike an article
 
 (3.2) Replies:
 (3.2.0) get all replies

@@ -136,4 +136,19 @@ articlesRouter.get(
   }
 );
 
+/* PATCH add a reply to an article */
+articlesRouter.patch("/addReply", authenticateToken, function (req, res) {
+  Article.findById(req.body.articleId, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    result.replies.push({ replyId: req.body.replyId });
+    let update = result;
+    result.save();
+
+    res.status(200).send(update);
+  });
+});
+
 module.exports = articlesRouter;

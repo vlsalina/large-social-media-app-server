@@ -44,7 +44,7 @@ const articleSchema = new mongoose.Schema(
     },
     replies: [
       {
-        id: {
+        replyId: {
           type: String,
           required: true,
         },
