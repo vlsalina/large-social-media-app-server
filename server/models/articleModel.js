@@ -24,6 +24,7 @@ const articleSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
+      default: "",
     },
     snippet: {
       type: String,

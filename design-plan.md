@@ -79,7 +79,7 @@ x (1.2.0) get a single user's data
 x (1.2.1) get all users data
 x (1.2.2) add a new user
 x (1.2.3) edit a user's data
-x (1.2.4) delete a user
+x (1.2.4) delete a user **\*\*** DISABLED **\*\***
 x (1.2.5) follow another user
 x (1.2.6) add an article to users favorites
 x (1.2.7) unfollow another user
@@ -106,6 +106,7 @@ x (1.2.8) remove an article from user's favorites
 
 **\*\*** Problems **\*\***
 (1) Must remember NOT to "close" connection to MongoDB when running app.
+(2) Error: Can't set headers after they are sent to the client.
 
 **\*\*** Resources **\*\***
 

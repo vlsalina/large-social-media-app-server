@@ -4,7 +4,11 @@ const Article = require("../models/articleModel");
 const User = require("../models/userModel");
 const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 const { v4: uuidv4 } = require("uuid");
-const { getRandomCategory } = require("../utils");
+const {
+  getRandomCategory,
+  authenticateToken,
+  getCategory,
+} = require("../utils");
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -22,12 +26,13 @@ articlesRouter.get("/test", function (req, res, next) {
   res.send(articlesDataset);
 });
 
-/* POST /insertMany */
+/* POST /insertMany random users */
 articlesRouter.post("/insertMany", function (req, res, next) {
   User.find({}, function (err, users) {
     if (err) {
       res.status(404).send({ error: err });
     }
+
     let articlesDataset = [];
     for (let i = 0; i < 10; i++) {
       let randomAuthor = users[Math.floor(Math.random() * 10)];
@@ -68,5 +73,67 @@ articlesRouter.delete("/deleteMany", function (req, res, next) {
     }
   });
 });
+
+/* GET retrieve a single article */
+articlesRouter.get("/getArticle", authenticateToken, function (req, res) {
+  Article.findById(req.query.articleId, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    res.status(200).send(result);
+  });
+});
+
+/* GET retrieve all articles */
+articlesRouter.get("/getAllArticles", authenticateToken, function (req, res) {
+  Article.find({}, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    res.status(200).send(result);
+  });
+});
+
+/* POST create a new article */
+articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
+  let newArticle = new Article({
+    _id: uuidv4(),
+    category: getCategory(req.body.category),
+    title: req.body.title,
+    author: `${req.user.firstname} ${req.user.lastname}`,
+    authorId: req.user._id,
+    avatar: req.body.snippet ? req.body.snippet : "",
+    snippet: req.body.snippet,
+    description: req.body.description,
+    content: req.body.content,
+    likes: 0,
+    replies: [],
+  });
+
+  newArticle.save(function (err) {
+    if (err) {
+      res.status(500).send({ error: err });
+    }
+
+    res.status(200).send(newArticle);
+  });
+});
+
+/* GET retrieve articles by category */
+articlesRouter.get(
+  "/getArticlesByCategory",
+  authenticateToken,
+  function (req, res) {
+    Article.find({ category: req.query.category }, function (error, result) {
+      if (error) {
+        res.status(404).send({ error: err });
+      }
+
+      res.status(200).send(result);
+    });
+  }
+);
 
 module.exports = articlesRouter;

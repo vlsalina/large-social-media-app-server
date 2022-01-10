@@ -16,6 +16,12 @@ function getRandomCategory() {
   return keys[Math.floor(Math.random() * keys.length)].toLowerCase();
 }
 
+// get designated category
+function getCategory(cat) {
+  const keys = Object.keys(categories);
+  return categories[cat.toUpperCase()];
+}
+
 // use bcrypt to encrypt passwords
 const saltRounds = 10;
 function hashSync(plaintext) {
@@ -54,4 +60,5 @@ module.exports = {
   hashSync,
   getToken,
   authenticateToken,
+  getCategory,
 };

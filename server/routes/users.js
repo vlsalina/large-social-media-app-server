@@ -127,6 +127,7 @@ usersRouter.put("/update", authenticateToken, function (req, res) {
   });
 });
 
+/********** DISABLED *************/
 /* DELETE delete a user */
 usersRouter.delete("/delete", authenticateToken, function (req, res) {
   // make sure user is not deleting someone else's account
