@@ -64,15 +64,29 @@ repliesRouter.patch("/likeReply", authenticateToken, function (req, res) {
     }
 
     let replies = result.replies;
+    let user;
     replies.forEach(function (reply) {
       if (reply._id === req.body.replyId) {
-        reply.likes.push({ userId: req.user._id });
+        user = reply.likes.find(function (x) {
+          return x.userId === req.user._id;
+        });
       }
     });
-    result.replies = replies;
-    result.save();
 
-    res.status(200).send(result);
+    if (user) {
+      res.status(200).send({ message: "User has already liked this reply." });
+    } else {
+      replies.forEach(function (reply) {
+        if (reply._id === req.body.replyId) {
+          reply.likes.push({ userId: req.user._id });
+        }
+      });
+
+      result.replies = replies;
+      result.save();
+
+      res.status(200).send(result);
+    }
   });
 });
 

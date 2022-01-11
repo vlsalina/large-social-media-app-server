@@ -153,15 +153,26 @@ articlesRouter.get(
 
 /* PATCH like an article */
 articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
+  let sofar = false;
   Article.findById(req.body.articleId, function (error, result) {
     if (error) {
       res.status(404).send({ error: error });
     }
 
-    result.likes.push({ _id: req.user._id });
-    result.save();
+    result.likes.forEach(function (like) {
+      if (like._id === req.user._id) {
+        sofar = true;
+      }
+    });
 
-    res.status(200).send(result);
+    if (sofar) {
+      res.status(200).send({ message: "User already liked this article." });
+    } else {
+      result.likes.push({ _id: req.user._id });
+      result.save();
+
+      res.status(200).send(result);
+    }
   });
 });
 
