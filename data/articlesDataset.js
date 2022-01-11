@@ -1,7 +1,7 @@
 const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 const { v4: uuidv4 } = require("uuid");
-const User = require("./models/userModel");
-const { getRandomCategory } = require("./utils");
+const User = require("../models/userModel");
+const { getRandomCategory } = require("../utils");
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {

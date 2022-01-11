@@ -25,9 +25,4 @@ authRouter.post("/login", function (req, res) {
   });
 });
 
-/* test */
-authRouter.get("/testing", function (req, res) {
-  res.status(200).send("Successful.");
-});
-
 module.exports = authRouter;
