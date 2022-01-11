@@ -21,10 +21,24 @@ const lorem = new LoremIpsum({
   },
 });
 
-/* GET /test */
-articlesRouter.get("/test", function (req, res, next) {
-  res.send(articlesDataset);
-});
+/********** DEPRECATED *************/
+/* PATCH Need to change 'likes' property to an array for each article */
+//articlesRouter.patch("/addLikesProp", function (req, res) {
+//  Article.find({}, function (error, result) {
+//    if (error) {
+//      res
+//        .status(404)
+//        .send({ error: "404 error. No articles found in database." });
+//    }
+//
+//    result.forEach(function (article) {
+//      article["likes"] = [];
+//      article.save();
+//    });
+//
+//    res.status(200).send(result);
+//  });
+//});
 
 /* POST /insertMany random users */
 articlesRouter.post("/insertMany", function (req, res, next) {
@@ -148,6 +162,37 @@ articlesRouter.patch("/addReply", authenticateToken, function (req, res) {
     result.save();
 
     res.status(200).send(update);
+  });
+});
+
+/* PATCH like an article */
+articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
+  Article.findById(req.body.articleId, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    result.likes.push({ _id: req.user._id });
+    result.save();
+
+    res.status(200).send(result);
+  });
+});
+
+/* PATCH unlike an article */
+articlesRouter.patch("/unlikeArticle", authenticateToken, function (req, res) {
+  Article.findById(req.body.articleId, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    result.likes = result.likes.filter(function (user) {
+      user._id !== req.user._id;
+    });
+
+    result.save();
+
+    res.status(200).send(result);
   });
 });
 

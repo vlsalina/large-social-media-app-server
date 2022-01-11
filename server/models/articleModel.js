@@ -38,10 +38,14 @@ const articleSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    likes: [
+      {
+        _id: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     replies: [
       {
         replyId: {

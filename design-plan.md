@@ -75,24 +75,24 @@ Conventional requirements:
 
 **\*\*** routes **\*\***
 (1.2) Users:
-x (1.2.0) get a single user's data
-x (1.2.1) get all users data
-x (1.2.2) add a new user
-x (1.2.3) edit a user's data
-x (1.2.4) delete a user **\*\*** DISABLED **\*\***
-x (1.2.5) follow another user
-x (1.2.6) add an article to users favorites
-x (1.2.7) unfollow another user
-x (1.2.8) remove an article from user's favorites
+done - (1.2.0) get a single user's data
+done - (1.2.1) get all users data
+done - (1.2.2) add a new user
+done - (1.2.3) edit a user's data
+done - (1.2.4) delete a user **\*\*** DISABLED **\*\***
+done - (1.2.5) follow another user
+done - (1.2.6) add an article to users favorites
+done - (1.2.7) unfollow another user
+done - (1.2.8) remove an article from user's favorites
 
 (2.2) Articles:
-(2.2.0) get a single article
-(2.2.1) get all articles
-(2.2.2) add an article
-(2.2.3) get articles by category
-(2.2.4) add reply to an article
-(2.2.5) like an article
-(2.2.6) unlike an article
+done - (2.2.0) get a single article
+done - (2.2.1) get all articles
+done - (2.2.2) add an article
+done - (2.2.3) get articles by category
+done - (2.2.4) add reply to an article
+done - (2.2.5) like an article
+wip - (2.2.6) unlike an article
 
 (3.2) Replies:
 (3.2.0) get all replies
