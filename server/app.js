@@ -13,7 +13,7 @@ var authRouter = require("./routes/auth");
 
 var app = express();
 
-const port = process.env.MONGODB_URI || 5000;
+const port = process.env.PORT || 5000;
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
