@@ -90,17 +90,22 @@ done - (2.2.0) get a single article
 done - (2.2.1) get all articles
 done - (2.2.2) add an article
 done - (2.2.3) get articles by category
-done - (2.2.4) add reply to an article
+moved - (2.2.4) add reply to an article
 done - (2.2.5) like an article
-wip - (2.2.6) unlike an article
+done - (2.2.6) unlike an article
 
 (3.2) Replies:
-(3.2.0) get all replies
-(3.2.1) add a reply
-(3.2.2) like a reply
+wip - (3.2.0) get all replies
+wip - (3.2.1) get a reply
+wip - (3.2.2) add reply to an article
+wip - (3.2.3) like a reply
+wip - (3.2.4) unlike a reply
 
 (4.2) Auth:
 (4.2.0) login
+
+**\*\*** fixes **\*\***
+(1) must fix addReply api to: - create a new Reply - add new reply to designated article
 
 **\*\*** technologies **\*\***
 (1) Reactjs

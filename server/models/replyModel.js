@@ -10,6 +10,10 @@ const replySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: String,
+      required: true,
+    },
     avatar: {
       type: String,
     },
@@ -17,9 +21,15 @@ const replySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    likes: {
-      type: Number,
-      default: 0,
+    likes: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
+    createdAt: {
+      type: String,
+      required: true,
     },
   },
   {

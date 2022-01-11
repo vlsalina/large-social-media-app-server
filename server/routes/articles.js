@@ -2,6 +2,7 @@ var express = require("express");
 var articlesRouter = express.Router();
 const Article = require("../models/articleModel");
 const User = require("../models/userModel");
+const Reply = require("../models/replyModel");
 const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 const { v4: uuidv4 } = require("uuid");
 const {
@@ -149,21 +150,6 @@ articlesRouter.get(
     });
   }
 );
-
-/* PATCH add a reply to an article */
-articlesRouter.patch("/addReply", authenticateToken, function (req, res) {
-  Article.findById(req.body.articleId, function (error, result) {
-    if (error) {
-      res.status(404).send({ error: error });
-    }
-
-    result.replies.push({ replyId: req.body.replyId });
-    let update = result;
-    result.save();
-
-    res.status(200).send(update);
-  });
-});
 
 /* PATCH like an article */
 articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
