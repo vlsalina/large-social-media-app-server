@@ -56,7 +56,7 @@ repliesRouter.post("/addReply", authenticateToken, function (req, res) {
   });
 });
 
-/* POST add a reply to an article */
+/* PATCH like a reply */
 repliesRouter.patch("/likeReply", authenticateToken, function (req, res) {
   Article.findById(req.body.articleId, function (error, result) {
     if (error) {
@@ -87,6 +87,32 @@ repliesRouter.patch("/likeReply", authenticateToken, function (req, res) {
 
       res.status(200).send(result);
     }
+  });
+});
+
+/* PATCH unlike a reply */
+repliesRouter.patch("/unlikeReply", authenticateToken, function (req, res) {
+  Article.findById(req.body.articleId, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    let replies = result.replies;
+    replies.forEach(function (reply) {
+      let likesUpdated;
+      if (reply._id === req.body.replyId) {
+        likesUpdated = reply.likes.filter(function (user) {
+          return user.userId !== req.user._id;
+        });
+
+        reply.likes = likesUpdated;
+      }
+    });
+
+    result.replies = replies;
+    result.save();
+
+    res.status(200).send(result);
   });
 });
 
