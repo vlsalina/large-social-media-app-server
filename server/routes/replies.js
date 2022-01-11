@@ -56,4 +56,24 @@ repliesRouter.post("/addReply", authenticateToken, function (req, res) {
   });
 });
 
+/* POST add a reply to an article */
+repliesRouter.patch("/likeReply", authenticateToken, function (req, res) {
+  Article.findById(req.body.articleId, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: error });
+    }
+
+    let replies = result.replies;
+    replies.forEach(function (reply) {
+      if (reply._id === req.body.replyId) {
+        reply.likes.push({ userId: req.user._id });
+      }
+    });
+    result.replies = replies;
+    result.save();
+
+    res.status(200).send(result);
+  });
+});
+
 module.exports = repliesRouter;

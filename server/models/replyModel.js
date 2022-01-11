@@ -23,8 +23,10 @@ const replySchema = new mongoose.Schema(
     },
     likes: [
       {
-        type: String,
-        required: true,
+        userId: {
+          type: String,
+          required: true,
+        },
       },
     ],
     createdAt: {
