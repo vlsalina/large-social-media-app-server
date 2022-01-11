@@ -95,11 +95,11 @@ done - (2.2.5) like an article
 done - (2.2.6) unlike an article
 
 (3.2) Replies:
-wip - (3.2.0) get all replies
-wip - (3.2.1) get a reply
+done - (3.2.0) get all replies
+done - (3.2.1) get a reply
 done - (3.2.2) add reply to an article
-wip - (3.2.3) like a reply
-wip - (3.2.4) unlike a reply
+done - (3.2.3) like a reply
+done - (3.2.4) unlike a reply
 
 (4.2) Auth:
 (4.2.0) login
