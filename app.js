@@ -15,7 +15,7 @@ var authRouter = require("./routes/auth");
 var app = express();
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
   })
 );
 
