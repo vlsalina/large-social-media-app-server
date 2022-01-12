@@ -1,7 +1,7 @@
 var express = require("express");
 var usersRouter = express.Router();
 const { v4: uuidv4 } = require("uuid");
-const { usersDataset } = require("../usersDataset");
+const { usersDataset } = require("../data/usersDataset");
 const { getRandomName, authenticateToken, hashSync } = require("../utils");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");

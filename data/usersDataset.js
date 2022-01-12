@@ -1,6 +1,5 @@
-const { getRandomName } = require("./utils");
 const { v4: uuidv4 } = require("uuid");
-const { hashSync } = require("./utils");
+const { hashSync, getRandomName } = require("../utils");
 
 let usersDataset = [];
 for (let i = 0; i < 10; i++) {
