@@ -119,3 +119,4 @@ done - (3.2.4) unlike a reply
 
 **\*\*** Learned **\*\***
 (1) use "req.query" to get values stored in url for backend
+(2) how to set CORS headers to allow access from designated sites
