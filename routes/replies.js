@@ -29,15 +29,8 @@ repliesRouter.get("/getReply", function (req, res) {
 
 /* POST add a reply to an article */
 repliesRouter.post("/addReply", authenticateToken, function (req, res) {
-  Article.findById(req.body.articleId, function (error, result) {
-    if (error) {
-      res.status(404).send({ error: error });
-    }
-
-    let replyId = uuidv4();
-
     let reply = new Reply({
-      _id: replyId,
+      _id: uuidv4(),
       articleId: req.body.articleId,
       author: `${req.user.firstname} ${req.user.lastname}`,
       userId: req.user._id,
@@ -48,13 +41,7 @@ repliesRouter.post("/addReply", authenticateToken, function (req, res) {
 
     reply.save();
 
-    console.log(result);
-
-    result.replies.push({ replyId: replyId });
-    let update = result;
-    result.save();
-
-    res.status(200).send(update);
+    res.status(200).send(reply);
   });
 });
 
