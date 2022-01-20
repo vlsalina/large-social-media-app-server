@@ -34,21 +34,23 @@ repliesRouter.post("/addReply", authenticateToken, function (req, res) {
       res.status(404).send({ error: error });
     }
 
-    let date = new Date();
+    let replyId = uuidv4();
 
     let reply = new Reply({
-      _id: uuidv4(),
+      _id: replyId,
+      articleId: req.body.articleId,
       author: `${req.user.firstname} ${req.user.lastname}`,
       userId: req.user._id,
       avatar: req.user.avatar ? req.user.avatar : "",
       content: req.body.content,
       likes: [],
-      createdAt: date,
     });
 
     reply.save();
 
-    result.replies.push(reply);
+    console.log(result);
+
+    result.replies.push({ replyId: replyId });
     let update = result;
     result.save();
 

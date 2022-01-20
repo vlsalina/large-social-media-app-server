@@ -40,7 +40,7 @@ const articleSchema = new mongoose.Schema(
     },
     likes: [
       {
-        _id: {
+        userId: {
           type: String,
           required: true,
         },
@@ -48,20 +48,7 @@ const articleSchema = new mongoose.Schema(
     ],
     replies: [
       {
-        _id: { type: String, required: true },
-        author: { type: String, requierd: true },
-        userId: { type: String, required: true },
-        avatar: { type: String, default: "" },
-        content: { type: String, required: true },
-        likes: [
-          {
-            userId: {
-              type: String,
-              required: true,
-            },
-          },
-        ],
-        createdAt: {
+        replyId: {
           type: String,
           required: true,
         },

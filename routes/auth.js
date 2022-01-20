@@ -24,6 +24,7 @@ authRouter.post("/login", function (req, res) {
       firstname: result.firstname,
       lastname: result.lastname,
       email: result.email,
+      picture: result.picture,
     };
 
     const accessToken = getToken(data);
@@ -33,6 +34,7 @@ authRouter.post("/login", function (req, res) {
       firstname: result.firstname,
       lastname: result.lastname,
       email: result.email,
+      picture: result.picture,
       accessToken: accessToken,
     };
 

@@ -6,6 +6,10 @@ const replySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    articleId: {
+      type: String,
+      required: true,
+    },
     author: {
       type: String,
       required: true,
@@ -29,10 +33,6 @@ const replySchema = new mongoose.Schema(
         },
       },
     ],
-    createdAt: {
-      type: String,
-      required: true,
-    },
   },
   {
     timestamps: true,

@@ -159,16 +159,16 @@ articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
       res.status(404).send({ error: error });
     }
 
-    result.likes.forEach(function (like) {
-      if (like._id === req.user._id) {
+    result.likes.forEach(function (x) {
+      if (x.userId === req.user._id) {
         sofar = true;
       }
     });
 
     if (sofar) {
-      res.status(200).send({ message: "User already liked this article." });
+      res.status(200).send(result);
     } else {
-      result.likes.push({ _id: req.user._id });
+      result.likes.push({ userId: req.user._id });
       result.save();
 
       res.status(200).send(result);

@@ -61,8 +61,8 @@ usersRouter.get("/getUser", authenticateToken, function (req, res) {
       firstname: result.firstname,
       lastname: result.lastname,
       email: result.email,
-      following: result.following,
-      favorites: result.favorites,
+      following: result.following.map((x) => x.userId),
+      favorites: result.favorites.map((x) => x.articleId),
     };
 
     res.status(200).send(user);
@@ -145,6 +145,7 @@ usersRouter.delete("/delete", authenticateToken, function (req, res) {
 
   // IMPORTANT! once user deletes his account, jwt must be invalidated/deleted on client side
 });
+/*********** END DISABLED **********/
 
 /* PATCH follow another user */
 usersRouter.patch("/follow", authenticateToken, function (req, res) {
