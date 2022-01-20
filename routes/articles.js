@@ -166,7 +166,7 @@ articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
     });
 
     if (sofar) {
-      res.status(200).send(result);
+      res.status(200).send();
     } else {
       result.likes.push({ userId: req.user._id });
       result.save();

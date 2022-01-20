@@ -46,14 +46,6 @@ const articleSchema = new mongoose.Schema(
         },
       },
     ],
-    replies: [
-      {
-        replyId: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
   },
   {
     timestamps: true,
