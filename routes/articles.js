@@ -113,18 +113,19 @@ articlesRouter.get("/getAllArticles", authenticateToken, function (req, res) {
 
 /* POST create a new article */
 articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
+  //
   let newArticle = new Article({
     _id: uuidv4(),
-    category: getCategory(req.body.category),
+    category: req.body.category,
     title: req.body.title,
     author: `${req.user.firstname} ${req.user.lastname}`,
     authorId: req.user._id,
     avatar: req.body.snippet ? req.body.snippet : "",
+    image: req.body.image,
     snippet: req.body.snippet,
     description: req.body.description,
     content: req.body.content,
-    likes: 0,
-    replies: [],
+    likes: [],
   });
 
   newArticle.save(function (err) {

@@ -25,6 +25,25 @@ const Article = require("../models/articleModel");
 //  });
 //});
 
+/********** DEPRECATED *************/
+/* PATCH Need to add 'following' property for each user */
+//usersRouter.patch("/addFollowersProp", function (req, res) {
+//  User.find({}, function (error, result) {
+//    if (error) {
+//      res.status(404).send({ error: "404 error. No users found in database." });
+//    }
+//
+//    result.forEach(function (user) {
+//      user["followers"] = [];
+//      user.save();
+//    });
+//
+//    let updatedUserBase = result;
+//
+//    res.status(200).send(updatedUserBase);
+//  });
+//});
+
 /* POST /insertMany. */
 usersRouter.post("/insertMany", function (req, res, next) {
   User.insertMany(usersDataset, function (error, result) {
@@ -61,7 +80,9 @@ usersRouter.get("/getUser", authenticateToken, function (req, res) {
       firstname: result.firstname,
       lastname: result.lastname,
       email: result.email,
+      picture: result.picture,
       following: result.following.map((x) => x.userId),
+      followers: result.followers.map((x) => x.userId),
       favorites: result.favorites.map((x) => x.articleId),
     };
 
@@ -82,6 +103,10 @@ usersRouter.get("/getAllUsers", authenticateToken, function (req, res) {
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
+        picture: user.picture,
+        following: user.following,
+        followers: user.followers,
+        favorites: user.favorites,
       };
     });
 
@@ -98,6 +123,8 @@ usersRouter.post("/register", async function (req, res) {
     email: req.body.email,
     password: hashSync(req.body.password),
     picture: "",
+    following: [],
+    followers: [],
     favorites: [],
   });
 
@@ -155,6 +182,27 @@ usersRouter.patch("/follow", authenticateToken, function (req, res) {
       res.status(404).send({ error: "404 error. User not found." });
     }
 
+    // add user to author's followers list
+    User.findById(req.body.userId, function (error, author) {
+      let alreadyInFollowersList = false;
+      if (error) {
+        res.status(404).send({ error: "404 error. Author not found." });
+      }
+
+      author.followers.forEach(function (x) {
+        if (x.userId === req.user._id) {
+          alreadyInFollowersList = true;
+        }
+      });
+
+      if (!alreadyInFollowersList) {
+        author.followers.push({ userId: req.user._id });
+        author.save();
+      }
+
+      // else user is already in author's followers list
+    });
+
     // if user is already following, return already is following message
     result.following.forEach(function (x) {
       if (x.userId === req.body.userId) {
@@ -207,6 +255,20 @@ usersRouter.patch("/unfollow", authenticateToken, function (req, res) {
     if (error) {
       res.status(404).send({ error: "404 error. User not found" });
     }
+
+    // remove user from author's followers list
+    User.findById(req.body.userId, function (error, author) {
+      if (error) {
+        res.status(404).send({ error: "404 error. Author not found." });
+      }
+
+      let updatedFollowers = author.followers.filter(function (x) {
+        return x.userId !== req.user._id;
+      });
+
+      author.followers = updatedFollowers;
+      author.save();
+    });
 
     result.following = result.following.filter(function (x) {
       return x.userId !== req.body.userId;

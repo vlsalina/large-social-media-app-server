@@ -26,6 +26,10 @@ const articleSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    image: {
+      type: String,
+      default: "",
+    },
     snippet: {
       type: String,
       required: true,

@@ -7,12 +7,12 @@ const { authenticateToken } = require("../utils");
 
 // GET retrieve all replies by articleId
 repliesRouter.get("/getAllReplies", function (req, res, next) {
-  Article.findById(req.query.articleId, function (error, result) {
+  Reply.find({ articleId: req.query.articleId }, function (error, result) {
     if (error) {
       res.status(404).send({ error: error });
     }
 
-    res.status(200).send(result.replies);
+    res.status(200).send(result);
   });
 });
 
@@ -29,17 +29,20 @@ repliesRouter.get("/getReply", function (req, res) {
 
 /* POST add a reply to an article */
 repliesRouter.post("/addReply", authenticateToken, function (req, res) {
-    let reply = new Reply({
-      _id: uuidv4(),
-      articleId: req.body.articleId,
-      author: `${req.user.firstname} ${req.user.lastname}`,
-      userId: req.user._id,
-      avatar: req.user.avatar ? req.user.avatar : "",
-      content: req.body.content,
-      likes: [],
-    });
+  let reply = new Reply({
+    _id: uuidv4(),
+    articleId: req.body.articleId,
+    author: `${req.user.firstname} ${req.user.lastname}`,
+    userId: req.user._id,
+    avatar: req.user.avatar ? req.user.avatar : "",
+    content: req.body.content,
+    likes: [],
+  });
 
-    reply.save();
+  reply.save(function (err) {
+    if (err) {
+      res.status(500).send({ error: err });
+    }
 
     res.status(200).send(reply);
   });

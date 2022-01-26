@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    followers: [
+      {
+        userId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     favorites: [
       {
         articleId: {
