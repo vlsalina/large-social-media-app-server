@@ -24,17 +24,17 @@ authRouter.post("/login", function (req, res) {
       firstname: result.firstname,
       lastname: result.lastname,
       email: result.email,
+      story: result.story,
       picture: result.picture,
+      following: result.following,
+      followers: result.followers,
+      favorites: result.favorites,
     };
 
     const accessToken = getToken(data);
 
     const user = {
-      _id: result._id,
-      firstname: result.firstname,
-      lastname: result.lastname,
-      email: result.email,
-      picture: result.picture,
+      ...data,
       accessToken: accessToken,
     };
 
