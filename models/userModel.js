@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: "",
     },
+    story: {
+      type: String,
+      default: "",
+    },
     following: [
       {
         userId: {

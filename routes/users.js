@@ -26,7 +26,7 @@ const Article = require("../models/articleModel");
 //});
 
 /********** DEPRECATED *************/
-/* PATCH Need to add 'following' property for each user */
+/* PATCH Need to add 'followers' property for each user */
 //usersRouter.patch("/addFollowersProp", function (req, res) {
 //  User.find({}, function (error, result) {
 //    if (error) {
@@ -35,6 +35,25 @@ const Article = require("../models/articleModel");
 //
 //    result.forEach(function (user) {
 //      user["followers"] = [];
+//      user.save();
+//    });
+//
+//    let updatedUserBase = result;
+//
+//    res.status(200).send(updatedUserBase);
+//  });
+//});
+
+/********** DEPRECATED *************/
+/* PATCH Need to add 'story' property for each user */
+//usersRouter.patch("/addStoryProp", function (req, res) {
+//  User.find({}, function (error, result) {
+//    if (error) {
+//      res.status(404).send({ error: "404 error. No users found in database." });
+//    }
+//
+//    result.forEach(function (user) {
+//      user["story"] = "";
 //      user.save();
 //    });
 //
