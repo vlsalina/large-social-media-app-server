@@ -152,6 +152,21 @@ articlesRouter.get(
   }
 );
 
+/* GET retrieve articles by author */
+articlesRouter.get(
+  "/getArticlesByAuthor",
+  authenticateToken,
+  function (req, res) {
+    Article.find({ authorId: req.query.authorId }, function (error, result) {
+      if (error) {
+        res.status(404).send({ error: err });
+      }
+
+      res.status(200).send(result);
+    });
+  }
+);
+
 /* PATCH like an article */
 articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
   let sofar = false;
