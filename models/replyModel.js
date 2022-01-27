@@ -10,6 +10,10 @@ const replySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    articleAuthorId: {
+      type: String,
+      required: true,
+    },
     author: {
       type: String,
       required: true,

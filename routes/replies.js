@@ -16,7 +16,7 @@ repliesRouter.get("/getAllReplies", function (req, res, next) {
   });
 });
 
-// GET retrieve a reply by articleId
+// GET retrieve a reply by replyId
 repliesRouter.get("/getReply", function (req, res) {
   Reply.findById(req.query.replyId, function (error, result) {
     if (error) {
@@ -32,6 +32,7 @@ repliesRouter.post("/addReply", authenticateToken, function (req, res) {
   let reply = new Reply({
     _id: uuidv4(),
     articleId: req.body.articleId,
+    articleAuthorId: req.body.articleAuthorId, //
     author: `${req.user.firstname} ${req.user.lastname}`,
     userId: req.user._id,
     avatar: req.user.avatar ? req.user.avatar : "",
@@ -107,5 +108,46 @@ repliesRouter.patch("/unlikeReply", authenticateToken, function (req, res) {
     res.status(200).send(result);
   });
 });
+
+/* GET all replies by authorId */
+repliesRouter.get(
+  "/getRepliesByAuthor",
+  authenticateToken,
+  function (req, res) {
+    Reply.find({ articleAuthorId: req.user._id }, function (error, result) {
+      if (error) {
+        res.status(404).send({ err: error });
+      }
+
+      // only return replies belonging to other users
+      let removeUser = result.filter((x) => x.userId !== req.user._id);
+
+      res.status(200).send(removeUser);
+    });
+  }
+);
+
+/********************** DEPRECATED ********************************/
+/* PATCH add articleAuthorId prop to all replies */
+//repliesRouter.patch("/addArticleAuthorIdProp", function (req, res) {
+//  Reply.find({}, function (error, replies) {
+//    if (error) {
+//      res.status(404).send({ error: "No replies found." });
+//    }
+//
+//    replies.forEach(function (reply) {
+//      Article.findById(reply.articleId, function (err, article) {
+//        if (err) {
+//          res.status(404).send({ err: "article not found." });
+//        }
+//
+//        reply["articleAuthorId"] = article.authorId;
+//      });
+//      reply.save();
+//    });
+//
+//    res.status(200).send(replies);
+//  });
+//});
 
 module.exports = repliesRouter;
