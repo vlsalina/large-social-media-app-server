@@ -16,6 +16,18 @@ repliesRouter.get("/getAllReplies", function (req, res, next) {
   });
 });
 
+/* DELETE /deleteMany */
+repliesRouter.delete("/deleteMany", function (req, res, next) {
+  Reply.deleteMany({}, function (error, result) {
+    if (error) {
+      res.status(500).send({ error: error });
+    } else {
+      console.log("Deleted all replies.");
+      res.status(200).send(result);
+    }
+  });
+});
+
 // GET retrieve a reply by replyId
 repliesRouter.get("/getReply", function (req, res) {
   Reply.findById(req.query.replyId, function (error, result) {
