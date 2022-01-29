@@ -1,6 +1,7 @@
 const categories = require("./categories/categories");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { colors } = require("./data/data");
 
 // random name generator
 const { uniqueNamesGenerator, names } = require("unique-names-generator");
@@ -54,6 +55,12 @@ function authenticateToken(req, res, next) {
   });
 }
 
+// get random avatar color
+function getColor() {
+  let index = Math.floor(Math.random() * colors.length);
+  return colors[index];
+}
+
 module.exports = {
   getRandomName,
   getRandomCategory,
@@ -61,4 +68,5 @@ module.exports = {
   getToken,
   authenticateToken,
   getCategory,
+  getColor,
 };

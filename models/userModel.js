@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      required: true,
+      default: "#000000",
+    },
     picture: {
       type: String,
       required: false,

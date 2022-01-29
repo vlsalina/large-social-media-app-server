@@ -2,7 +2,12 @@ var express = require("express");
 var usersRouter = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const { usersDataset } = require("../data/usersDataset");
-const { getRandomName, authenticateToken, hashSync } = require("../utils");
+const {
+  getRandomName,
+  authenticateToken,
+  hashSync,
+  getColor,
+} = require("../utils");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
 const rules = require("nodemon/lib/rules");
@@ -60,6 +65,39 @@ const Article = require("../models/articleModel");
 //    let updatedUserBase = result;
 //
 //    res.status(200).send(updatedUserBase);
+//  });
+//});
+
+/* PATCH update picture prop to avatar prop */
+//usersRouter.patch("/updateProp", function (req, res) {
+//  User.updateMany(
+//    {},
+//    { $rename: { picture: "avatar" } },
+//    { multi: true },
+//    function (err) {
+//      if (err) {
+//        throw err;
+//      }
+//
+//      res.sendStatus(200);
+//    }
+//  );
+//});
+
+/* PATCH update all users to have an avatar color */
+//usersRouter.patch("/userColors", function (req, res) {
+//  User.find({}, function (error, result) {
+//    if (error) {
+//      res.status(400).send(error);
+//    }
+//
+//    result.forEach(function (x) {
+//      let color = getColor();
+//      x["avatar"] = color;
+//      x.save();
+//    });
+//
+//    res.status(200).send(result);
 //  });
 //});
 
@@ -315,6 +353,13 @@ usersRouter.patch("/unfavorite", authenticateToken, function (req, res) {
     result.save();
     res.status(200).send(result);
   });
+});
+
+/* get color test */
+usersRouter.get("/getColor", function (req, res) {
+  let response = getColor();
+
+  res.status(200).send(response);
 });
 
 module.exports = usersRouter;
