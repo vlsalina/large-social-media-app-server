@@ -41,26 +41,27 @@ const lorem = new LoremIpsum({
 //  });
 //});
 
+/**************** DEPRECATED **************************/
 /* PATCH sync user avatars with article avatars */
-articlesRouter.patch("/syncAvatar", function (req, res) {
-  Article.find({}, function (err, articles) {
-    if (err) {
-      res.sendStatus(404);
-    }
-
-    articles.forEach(function (article) {
-      User.findById(article.authorId, function (errr, user) {
-        if (errr) {
-          res.sendStatus(404);
-        }
-        article["avatar"] = user["avatar"];
-        article.save();
-      });
-    });
-
-    res.status(200).send(articles);
-  });
-});
+//articlesRouter.patch("/syncAvatar", function (req, res) {
+//  Article.find({}, function (err, articles) {
+//    if (err) {
+//      res.sendStatus(404);
+//    }
+//
+//    articles.forEach(function (article) {
+//      User.findById(article.authorId, function (errr, user) {
+//        if (errr) {
+//          res.sendStatus(404);
+//        }
+//        article["avatar"] = user["avatar"];
+//        article.save();
+//      });
+//    });
+//
+//    res.status(200).send(articles);
+//  });
+//});
 
 /* POST /insertMany random users */
 articlesRouter.post("/insertMany", function (req, res, next) {

@@ -2,8 +2,30 @@ const express = require("express");
 const repliesRouter = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const Reply = require("../models/replyModel");
+const User = require("../models/userModel");
 const Article = require("../models/articleModel");
 const { authenticateToken } = require("../utils");
+
+/* PATCH sync user avatars with article avatars */
+//repliesRouter.patch("/syncAvatar", function (req, res) {
+//  Reply.find({}, function (err, replies) {
+//    if (err) {
+//      res.sendStatus(404);
+//    }
+//
+//    replies.forEach(function (reply) {
+//      User.findById(reply.userId, function (errr, user) {
+//        if (errr) {
+//          res.sendStatus(404);
+//        }
+//        reply["avatar"] = user["avatar"];
+//        reply.save();
+//      });
+//    });
+//
+//    res.status(200).send(replies);
+//  });
+//});
 
 // GET retrieve all replies by articleId
 repliesRouter.get("/getAllReplies", function (req, res, next) {
