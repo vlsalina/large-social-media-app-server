@@ -69,7 +69,7 @@ repliesRouter.post("/addReply", authenticateToken, function (req, res) {
     articleAuthorId: req.body.articleAuthorId, //
     author: `${req.user.firstname} ${req.user.lastname}`,
     userId: req.user._id,
-    avatar: req.user.avatar ? req.user.avatar : "",
+    avatar: req.user.avatar,
     content: req.body.content,
     likes: [],
   });

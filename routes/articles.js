@@ -142,7 +142,7 @@ articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
     title: req.body.title,
     author: `${req.user.firstname} ${req.user.lastname}`,
     authorId: req.user._id,
-    avatar: req.body.snippet ? req.body.snippet : "",
+    avatar: req.user.avatar,
     image: req.body.image,
     snippet: req.body.snippet,
     description: req.body.description,
@@ -214,8 +214,8 @@ articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
   });
 });
 
-/* PATCH unlike an article */
-articlesRouter.patch("/unlikeArticle", authenticateToken, function (req, res) {
+/* PATCH dislike an article */
+articlesRouter.patch("/dislikeArticle", authenticateToken, function (req, res) {
   Article.findById(req.body.articleId, function (error, result) {
     if (error) {
       res.status(404).send({ error: error });

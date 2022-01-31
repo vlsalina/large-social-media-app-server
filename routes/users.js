@@ -137,6 +137,7 @@ usersRouter.get("/getUser", authenticateToken, function (req, res) {
       firstname: result.firstname,
       lastname: result.lastname,
       email: result.email,
+      avatar: result.avatar,
       story: result.story,
       picture: result.picture,
       following: result.following.map((x) => x.userId),
@@ -161,6 +162,7 @@ usersRouter.get("/getAllUsers", authenticateToken, function (req, res) {
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
+        avatar: user.avatar,
         story: user.story,
         picture: user.picture,
         following: user.following,
@@ -180,6 +182,7 @@ usersRouter.post("/register", async function (req, res) {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
+    avatar: getColor(),
     story: "",
     password: hashSync(req.body.password),
     picture: "",
@@ -353,13 +356,6 @@ usersRouter.patch("/unfavorite", authenticateToken, function (req, res) {
     result.save();
     res.status(200).send(result);
   });
-});
-
-/* get color test */
-usersRouter.get("/getColor", function (req, res) {
-  let response = getColor();
-
-  res.status(200).send(response);
 });
 
 module.exports = usersRouter;
