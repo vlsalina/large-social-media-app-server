@@ -14,32 +14,30 @@ authRouter.post("/login", function (req, res) {
     }
 
     if (!bcrypt.compareSync(req.body.password, result.password)) {
-      res
-        .status(401)
-        .send({ message: "Incorrect email or password provided." });
+      res.sendStatus(403);
+    } else {
+      const data = {
+        _id: result._id,
+        firstname: result.firstname,
+        lastname: result.lastname,
+        email: result.email,
+        avatar: result.avatar,
+        picture: result.picture,
+        story: result.story,
+        following: result.following,
+        followers: result.followers,
+        favorites: result.favorites,
+      };
+
+      const accessToken = getToken(data);
+
+      const user = {
+        ...data,
+        accessToken: accessToken,
+      };
+
+      res.status(200).json(user);
     }
-
-    const data = {
-      _id: result._id,
-      firstname: result.firstname,
-      lastname: result.lastname,
-      email: result.email,
-      avatar: result.avatar,
-      picture: result.picture,
-      story: result.story,
-      following: result.following,
-      followers: result.followers,
-      favorites: result.favorites,
-    };
-
-    const accessToken = getToken(data);
-
-    const user = {
-      ...data,
-      accessToken: accessToken,
-    };
-
-    res.json(user);
   });
 });
 

@@ -22,47 +22,6 @@ const lorem = new LoremIpsum({
   },
 });
 
-/********** DEPRECATED *************/
-/* PATCH Need to change 'likes' property to an array for each article */
-//articlesRouter.patch("/addLikesProp", function (req, res) {
-//  Article.find({}, function (error, result) {
-//    if (error) {
-//      res
-//        .status(404)
-//        .send({ error: "404 error. No articles found in database." });
-//    }
-//
-//    result.forEach(function (article) {
-//      article["likes"] = [];
-//      article.save();
-//    });
-//
-//    res.status(200).send(result);
-//  });
-//});
-
-/**************** DEPRECATED **************************/
-/* PATCH sync user avatars with article avatars */
-//articlesRouter.patch("/syncAvatar", function (req, res) {
-//  Article.find({}, function (err, articles) {
-//    if (err) {
-//      res.sendStatus(404);
-//    }
-//
-//    articles.forEach(function (article) {
-//      User.findById(article.authorId, function (errr, user) {
-//        if (errr) {
-//          res.sendStatus(404);
-//        }
-//        article["avatar"] = user["avatar"];
-//        article.save();
-//      });
-//    });
-//
-//    res.status(200).send(articles);
-//  });
-//});
-
 /* POST /insertMany random users */
 articlesRouter.post("/insertMany", function (req, res, next) {
   User.find({}, function (err, users) {
