@@ -7,6 +7,7 @@ const {
   authenticateToken,
   hashSync,
   getColor,
+  session,
 } = require("../utils");
 const mongoose = require("mongoose");
 const User = require("../models/userModel");
@@ -38,7 +39,7 @@ usersRouter.delete("/deleteMany", function (req, res, next) {
 });
 
 /* GET retrieve a user's data */
-usersRouter.get("/getUser", authenticateToken, function (req, res) {
+usersRouter.get("/getUser", function (req, res) {
   User.findOne({ _id: req.query.id }, function (error, result) {
     if (error) {
       res.status(404).send({ error: "404 Error. User not found." });
@@ -105,11 +106,11 @@ usersRouter.post("/register", async function (req, res) {
 
   await user
     .save()
-    .then(function () {
-      res.sendStatus(200);
+    .then(function (user) {
+      res.status(200).json(user);
     })
     .catch(function (error) {
-      res.sendStatus(500);
+      res.status(401).json(error);
     });
 });
 
@@ -154,14 +155,14 @@ usersRouter.patch("/follow", authenticateToken, function (req, res) {
   let sofar = false;
   User.findById(req.user._id, function (error, result) {
     if (error) {
-      res.status(404).send({ error: "404 error. User not found." });
+      res.status(404).json({ error });
     }
 
     // add user to author's followers list
     User.findById(req.body.userId, function (error, author) {
       let alreadyInFollowersList = false;
       if (error) {
-        res.status(404).send({ error: "404 error. Author not found." });
+        res.status(404).json({ error });
       }
 
       author.followers.forEach(function (x) {
@@ -186,14 +187,14 @@ usersRouter.patch("/follow", authenticateToken, function (req, res) {
     });
 
     if (sofar) {
-      res.status(200).send({ message: "Already following author." });
+      res.status(200).json(session(result));
     } else {
       // add author to user's following list
       result.following.push({ userId: req.body.userId });
-      let update = result;
+      //let update = result;
       result.save();
 
-      res.status(200).send(update);
+      res.status(200).json(session(result));
     }
   });
 });
@@ -203,7 +204,7 @@ usersRouter.patch("/favorite", authenticateToken, function (req, res) {
   let sofar = false;
   User.findById(req.user._id, function (error, result) {
     if (error) {
-      res.status(404).send({ error: "404 error. User not found." });
+      res.status(404).json({ error });
     }
 
     result.favorites.forEach(function (x) {
@@ -213,13 +214,12 @@ usersRouter.patch("/favorite", authenticateToken, function (req, res) {
     });
 
     if (sofar) {
-      res.status(200).send({ message: "Article already added to favorites." });
+      res.status(200).json(session(result));
     } else {
       result.favorites.push({ articleId: req.body.articleId });
-      let update = result;
       result.save();
 
-      res.status(200).send(update);
+      res.status(200).json(session(result));
     }
   });
 });
@@ -228,13 +228,13 @@ usersRouter.patch("/favorite", authenticateToken, function (req, res) {
 usersRouter.patch("/unfollow", authenticateToken, function (req, res) {
   User.findById(req.user._id, function (error, result) {
     if (error) {
-      res.status(404).send({ error: "404 error. User not found" });
+      res.status(404).json({ error });
     }
 
     // remove user from author's followers list
     User.findById(req.body.userId, function (error, author) {
       if (error) {
-        res.status(404).send({ error: "404 error. Author not found." });
+        res.status(404).json({ error });
       }
 
       let updatedFollowers = author.followers.filter(function (x) {
@@ -249,8 +249,11 @@ usersRouter.patch("/unfollow", authenticateToken, function (req, res) {
       return x.userId !== req.body.userId;
     });
 
+    //let updated = result;
+
     result.save();
-    res.status(200).send(result);
+
+    res.status(200).send(session(result));
   });
 });
 
@@ -258,15 +261,18 @@ usersRouter.patch("/unfollow", authenticateToken, function (req, res) {
 usersRouter.patch("/unfavorite", authenticateToken, function (req, res) {
   User.findById(req.user._id, function (error, result) {
     if (error) {
-      res.status(404).send({ error: "404 error. User not found" });
+      res.status(404).json({ error });
     }
 
     result.favorites = result.favorites.filter(function (x) {
       return x.articleId !== req.body.articleId;
     });
 
+    //let update = result;
+
     result.save();
-    res.status(200).send(result);
+
+    res.status(200).json(session(result));
   });
 });
 

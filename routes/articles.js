@@ -71,7 +71,7 @@ articlesRouter.delete("/deleteMany", function (req, res, next) {
 });
 
 /* GET retrieve a single article */
-articlesRouter.get("/getArticle", authenticateToken, function (req, res) {
+articlesRouter.get("/getArticle", function (req, res) {
   Article.findById(req.query.articleId, function (error, result) {
     if (error) {
       res.status(404).send({ error: error });
@@ -82,13 +82,13 @@ articlesRouter.get("/getArticle", authenticateToken, function (req, res) {
 });
 
 /* GET retrieve all articles */
-articlesRouter.get("/getAllArticles", authenticateToken, function (req, res) {
+articlesRouter.get("/getAllArticles", function (req, res) {
   Article.find({}, function (error, result) {
     if (error) {
-      res.status(404).send({ error: error });
+      res.status(404).json({ error });
     }
 
-    res.status(200).send(result);
+    res.status(200).json(result);
   });
 });
 
@@ -119,41 +119,33 @@ articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
 });
 
 /* GET retrieve articles by category */
-articlesRouter.get(
-  "/getArticlesByCategory",
-  authenticateToken,
-  function (req, res) {
-    Article.find({ category: req.query.category }, function (error, result) {
-      if (error) {
-        res.status(404).send({ error: err });
-      }
+articlesRouter.get("/getArticlesByCategory", function (req, res) {
+  Article.find({ category: req.query.category }, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: err });
+    }
 
-      res.status(200).send(result);
-    });
-  }
-);
+    res.status(200).send(result);
+  });
+});
 
 /* GET retrieve articles by author */
-articlesRouter.get(
-  "/getArticlesByAuthor",
-  authenticateToken,
-  function (req, res) {
-    Article.find({ authorId: req.query.authorId }, function (error, result) {
-      if (error) {
-        res.status(404).send({ error: err });
-      }
+articlesRouter.get("/getArticlesByAuthor", function (req, res) {
+  Article.find({ authorId: req.query.authorId }, function (error, result) {
+    if (error) {
+      res.status(404).send({ error: err });
+    }
 
-      res.status(200).send(result);
-    });
-  }
-);
+    res.status(200).send(result);
+  });
+});
 
 /* PATCH like an article */
 articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
   let sofar = false;
   Article.findById(req.body.articleId, function (error, result) {
     if (error) {
-      res.status(404).send({ error: error });
+      res.status(404).json({ error });
     }
 
     result.likes.forEach(function (x) {
@@ -163,21 +155,21 @@ articlesRouter.patch("/likeArticle", authenticateToken, function (req, res) {
     });
 
     if (sofar) {
-      res.status(200).send();
+      res.sendStatus(200);
     } else {
       result.likes.push({ userId: req.user._id });
       result.save();
 
-      res.status(200).send(result);
+      res.sendStatus(200);
     }
   });
 });
 
-/* PATCH dislike an article */
-articlesRouter.patch("/dislikeArticle", authenticateToken, function (req, res) {
+/* PATCH unlike an article */
+articlesRouter.patch("/unlikeArticle", authenticateToken, function (req, res) {
   Article.findById(req.body.articleId, function (error, result) {
     if (error) {
-      res.status(404).send({ error: error });
+      res.status(404).json({ error });
     }
 
     result.likes = result.likes.filter(function (user) {
@@ -186,7 +178,7 @@ articlesRouter.patch("/dislikeArticle", authenticateToken, function (req, res) {
 
     result.save();
 
-    res.status(200).send(result);
+    res.sendStatus(200);
   });
 });
 

@@ -10,10 +10,10 @@ const { authenticateToken } = require("../utils");
 repliesRouter.get("/getAllReplies", function (req, res, next) {
   Reply.find({ articleId: req.query.articleId }, function (error, result) {
     if (error) {
-      res.status(404).send({ error: error });
+      res.status(404).json({ error });
     }
 
-    res.status(200).send(result);
+    res.status(200).json(result);
   });
 });
 

@@ -40,6 +40,31 @@ function getToken(user) {
   return accessToken;
 }
 
+// generate session
+function session(result) {
+  const data = {
+    _id: result._id,
+    firstname: result.firstname,
+    lastname: result.lastname,
+    email: result.email,
+    avatar: result.avatar,
+    picture: result.picture,
+    story: result.story,
+    following: result.following,
+    followers: result.followers,
+    favorites: result.favorites,
+  };
+
+  const accessToken = getToken(data);
+
+  const user = {
+    ...data,
+    accessToken: accessToken,
+  };
+
+  return user;
+}
+
 // authenticate token
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
@@ -69,4 +94,5 @@ module.exports = {
   authenticateToken,
   getCategory,
   getColor,
+  session,
 };
