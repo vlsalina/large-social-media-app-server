@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(function (req, res, next) {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://large-social-media.netlify.app/"
+    "https://large-social-media.netlify.app"
   );
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type, authorization");
