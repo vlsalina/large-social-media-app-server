@@ -94,7 +94,6 @@ articlesRouter.get("/getAllArticles", function (req, res) {
 
 /* POST create a new article */
 articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
-  //
   let newArticle = new Article({
     _id: uuidv4(),
     category: req.body.category,
@@ -109,12 +108,12 @@ articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
     likes: [],
   });
 
-  newArticle.save(function (err) {
+  newArticle.save(function (err, result) {
     if (err) {
-      res.status(500).send({ error: err });
+      res.status(500).json({ error });
     }
 
-    res.status(200).send(newArticle);
+    res.sendStatus(200);
   });
 });
 

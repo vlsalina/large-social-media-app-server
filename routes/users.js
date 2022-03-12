@@ -110,7 +110,7 @@ usersRouter.post("/register", async function (req, res) {
       res.status(200).json(user);
     })
     .catch(function (error) {
-      res.status(401).json(error);
+      res.status(500).json({ message: "Error 500. Internal server error." });
     });
 });
 
