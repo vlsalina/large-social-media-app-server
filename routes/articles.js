@@ -92,6 +92,20 @@ articlesRouter.get("/getAllArticles", function (req, res) {
   });
 });
 
+/* GET load articles request */
+articlesRouter.get("/loadArticles", function (req, res) {
+  Article.find({}, function (error, result) {
+    if (error) {
+      res.status(404).json({ error });
+    }
+
+    let start = req.query.start;
+    let end = req.query.end;
+
+    res.status(200).json(result.slice(start, end));
+  });
+});
+
 /* POST create a new article */
 articlesRouter.post("/createArticle", authenticateToken, function (req, res) {
   let newArticle = new Article({
