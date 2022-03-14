@@ -99,8 +99,8 @@ articlesRouter.get("/loadArticles", function (req, res) {
       res.status(404).json({ error });
     }
 
-    let start = req.query.start;
-    let end = req.query.end;
+    let start = parseInt(req.query.start);
+    let end = parseInt(req.query.start) + 3;
 
     res.status(200).json(result.slice(start, end));
   });
