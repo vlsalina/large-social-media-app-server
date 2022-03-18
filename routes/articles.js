@@ -74,10 +74,10 @@ articlesRouter.delete("/deleteMany", function (req, res, next) {
 articlesRouter.get("/getArticle", function (req, res) {
   Article.findById(req.query.articleId, function (error, result) {
     if (error) {
-      res.status(404).send({ error: error });
+      res.status(404).json({ error });
     }
 
-    res.status(200).send(result);
+    res.status(200).json(result);
   });
 });
 
@@ -104,7 +104,7 @@ articlesRouter.get("/loadArticles", function (req, res) {
       let start = parseInt(req.query.start);
       let end = parseInt(req.query.start) + parseInt(req.query.limit);
 
-      res.status(200).json({ articles: result.slice(start, end) });
+      res.status(200).json({ articles: result.reverse().slice(start, end) });
     }
   );
 });
@@ -149,10 +149,10 @@ articlesRouter.get("/getArticlesByCategory", function (req, res) {
 articlesRouter.get("/getArticlesByAuthor", function (req, res) {
   Article.find({ authorId: req.query.authorId }, function (error, result) {
     if (error) {
-      res.status(404).send({ error: err });
+      res.status(404).json({ error });
     }
 
-    res.status(200).send(result);
+    res.status(200).json(result);
   });
 });
 

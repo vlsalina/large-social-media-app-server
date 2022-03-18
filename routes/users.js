@@ -42,7 +42,7 @@ usersRouter.delete("/deleteMany", function (req, res, next) {
 usersRouter.get("/getUser", function (req, res) {
   User.findOne({ _id: req.query.id }, function (error, result) {
     if (error) {
-      res.status(404).send({ error: "404 Error. User not found." });
+      res.status(404).json({ error: "404 Error. User not found." });
     }
 
     let user = {
@@ -58,7 +58,7 @@ usersRouter.get("/getUser", function (req, res) {
       favorites: result.favorites.map((x) => x.articleId),
     };
 
-    res.status(200).send(user);
+    res.status(200).json(user);
   });
 });
 
