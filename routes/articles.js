@@ -94,16 +94,19 @@ articlesRouter.get("/getAllArticles", function (req, res) {
 
 /* GET load articles request */
 articlesRouter.get("/loadArticles", function (req, res) {
-  Article.find({}, function (error, result) {
-    if (error) {
-      res.status(404).json({ error });
+  Article.find(
+    req.query.category ? { category: req.query.category } : {},
+    function (error, result) {
+      if (error) {
+        res.status(404).json({ error });
+      }
+
+      let start = parseInt(req.query.start);
+      let end = parseInt(req.query.start) + parseInt(req.query.limit);
+
+      res.status(200).json({ articles: result.slice(start, end) });
     }
-
-    let start = parseInt(req.query.start);
-    let end = parseInt(req.query.start) + 3;
-
-    res.status(200).json(result.slice(start, end));
-  });
+  );
 });
 
 /* POST create a new article */
