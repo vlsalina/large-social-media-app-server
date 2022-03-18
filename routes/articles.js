@@ -104,7 +104,10 @@ articlesRouter.get("/loadArticles", function (req, res) {
       let start = parseInt(req.query.start);
       let end = parseInt(req.query.start) + parseInt(req.query.limit);
 
-      res.status(200).json({ articles: result.reverse().slice(start, end) });
+      res.status(200).json({
+        articles: result.reverse().slice(start, end),
+        total: result.length,
+      });
     }
   );
 });
