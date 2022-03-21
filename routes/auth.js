@@ -10,7 +10,7 @@ const saltRounds = 10;
 authRouter.post("/login", function (req, res) {
   User.findOne({ email: req.body.email }, function (error, result) {
     if (error) {
-      res.status(404).json({ message: "Email or password is incorrect." });
+      res.status(404).json({ message: "Account not found." });
     }
 
     if (!bcrypt.compareSync(req.body.password, result.password)) {
